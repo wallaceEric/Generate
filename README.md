@@ -62,7 +62,7 @@ Note: Changed settings take effect after restarting the application
 
 **WordCountMin**, **WordCountMax** are lower and upper bound for the review word length, which is randomly generated in that range. The review will exceed wordCountMax in order to finish the sentence in progress. 
 
-**TrainingDateFile** is the full path and file name to the JSON data for training
+**TrainingDataFile** is the full path and file name to the JSON data for training
 
 #### Example Settings from appsettings.json
 ```
