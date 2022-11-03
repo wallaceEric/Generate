@@ -14,7 +14,7 @@ generate has a single REST api (/API/generate) that returns JSON with an autogen
 #### Example JSON result
 
 ```
-> {
+{
     "reviewerID": "337737",
     "asin": "",
     "reviewerName": "Markov",
@@ -66,11 +66,11 @@ Note: Changed settings take effect after restarting the application
 
 #### Example Settings from appsettings.json
 ```
- > "AppSettings": {
-        "TrainingDataFile": ".\\data\\Grocery_and_Gourmet_Food_5.json",
-        "MarkovOrder": 2,
-        "WordCountMin": 15,
-        "WordCountMax": 36
+ "AppSettings": {
+    "TrainingDataFile": ".\\data\\Grocery_and_Gourmet_Food_5.json",
+    "MarkovOrder": 2,
+    "WordCountMin": 15,
+    "WordCountMax": 36
 ```
 ## Authors
 
