@@ -22,12 +22,20 @@ namespace generate.Helpers.MarkovChain
         /// <param name="trainingDataFile"></param>
         public MarkovChain (int markovOrder, string trainingDataFile)
         {
-            if (markovOrder is < 1 or > 5)
-                throw new ArgumentOutOfRangeException($"{nameof(markovOrder)} must be between 1 and 5.");
-            
-            _markovOrder = markovOrder;
-            _trainingDataFile = trainingDataFile;
-            Train();
+            try 
+            {
+                if (markovOrder is < 1 or > 5)
+                    throw new ArgumentOutOfRangeException($"{nameof(markovOrder)} must be between 1 and 5.");
+                
+                _markovOrder = markovOrder;
+                _trainingDataFile = trainingDataFile;
+                Train();
+            }
+            catch (Exception ex)
+            {
+                //Log
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
         }
 
         /// <summary>
@@ -80,19 +88,28 @@ namespace generate.Helpers.MarkovChain
         /// </summary>
         private List<Review> ReadTrainingData()
         {
-            List<Review> source;
-            if (String.IsNullOrEmpty(_trainingDataFile))
-                throw new ArgumentException($"{nameof(_trainingDataFile)} was not provided.");
-
-            if (!File.Exists(_trainingDataFile))
-                throw new FileNotFoundException($"File [{_trainingDataFile}] was not found.");
-
-            using (StreamReader r = new(_trainingDataFile))
+            List<Review> source = null;
+            
+            try 
             {
-                string json = r.ReadToEnd();
-                source = JsonSerializer.Deserialize<List<Review>>(json);
+                if (String.IsNullOrEmpty(_trainingDataFile))
+                    throw new ArgumentException($"{nameof(_trainingDataFile)} was not provided.");
+
+                if (!File.Exists(_trainingDataFile))
+                    throw new FileNotFoundException($"File [{_trainingDataFile}] was not found.");
+
+                using (StreamReader r = new(_trainingDataFile))
+                {
+                    string json = r.ReadToEnd();
+                    source = JsonSerializer.Deserialize<List<Review>>(json);
+                }
+            } 
+            catch (Exception ex) 
+            {
+                //Log
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
-            return source;
+            return source;   
         }
 
         /// <summary>
