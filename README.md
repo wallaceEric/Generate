@@ -31,17 +31,15 @@ The training data zip file is included in the ./data folder and must be unzipped
 
 generate uses
 
-● Markov order 2 by default. Configurable via markovOrder setting.
+● Markov order 2 by default. Configurable via MarkovOrder setting.
 
-● random configurable review length (wordCountMin, wordCountMax in settings).  The review length will exceed wordCountMax in order to finish the sentence in progress.
+● random configurable review length (WordCountMin, WordCountMax in settings).  The review length will exceed wordCountMax in order to finish the sentence in progress.
 
 ● random 1-5 for "overall" rating
 
 ## Getting Started
 
 ● download the code
-
-● build with .NET 6 core compatible tools of your choice
 
 ● unzip (in the same location)
     
@@ -51,9 +49,11 @@ generate uses
     
     ./data/Grocery_and_Gourmet_Food_5.json
 
+● build with .NET 6 core compatible tools of your choice
+
 ● run the application (wait for startup to complete maybe 20 seconds)
 
-● access (hit) the URL ./API/generate 
+● access (hit) the URL ./API/generate GET request
 
 ## Settings
 Note: Changed settings take effect after restarting the application
