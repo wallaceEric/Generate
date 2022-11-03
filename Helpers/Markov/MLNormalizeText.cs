@@ -13,8 +13,8 @@ namespace generate.Helpers.MarkovChain
             var normalizedPipeline = context.Transforms.Text.NormalizeText("NormalizedText", "Text",
                 Microsoft.ML.Transforms.Text.TextNormalizingEstimator.CaseMode.Lower,
                 keepDiacritics: false,
-                keepPunctuations: false,
-                keepNumbers: false);
+                keepPunctuations: true,
+                keepNumbers: true);
 
             var normalizeTransformer = normalizedPipeline.Fit(emptyData);
             _predictionEngine = context.Model.CreatePredictionEngine<Input, Output>(normalizeTransformer);

@@ -48,8 +48,13 @@ namespace generate
                 // global error handler
                 app.UseMiddleware<ErrorHandlerMiddleware>();
                 app.MapControllers();
+                
+                // Warm up / initialize the review service
+                app.Services.GetService<IReviewService>();
+                
                 app.Run();
             }
         }
+
     }
 }

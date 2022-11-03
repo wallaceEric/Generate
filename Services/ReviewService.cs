@@ -2,6 +2,7 @@ using Microsoft.Extensions.Options;
 using generate.Entities;
 using generate.Helpers.MarkovChain;
 using generate.Helpers.Settings;
+using System.Text.RegularExpressions;
 
 namespace generate.Services;
 
@@ -13,9 +14,8 @@ public interface IReviewService
     public Review Generate();
 }
 
-
 /// <summary>
-/// 
+/// Generate review service
 /// </summary>
 public class ReviewService: IReviewService
 {
@@ -36,11 +36,10 @@ public class ReviewService: IReviewService
     {
         int wordCount = Random.Shared.Next(
             _appSettings.WordCountMin, 
-            _appSettings.WordCountMax);
+            _appSettings.WordCountMax + 1);
 
         return GenerateReview(wordCount);      
     }
-
 
     /// <summary>
     /// Creates a review from the trained MarkovChain
@@ -51,14 +50,15 @@ public class ReviewService: IReviewService
     /// <returns></returns>
     public Review GenerateReview(int wordCount)
     {
-        bool phraseTerminated = false;
         List<String> wordList = new();
-        string word = _markovChain.GetNextWord(string.Empty, out phraseTerminated);
         
-        for (int i = 0; i < wordCount; i++)
+        string word = string.Empty;
+        while (true)
         {
-            word = _markovChain.GetNextWord(word, out phraseTerminated);
-            wordList.Add((phraseTerminated ? ". " : "") + word.Split(" ").Last());
+            word = _markovChain.GetNextWord(word);
+            wordList.Add(word.Split(" ").Last());
+            if (wordList.Count >= wordCount && wordList.Last().TrimEnd().EndsWith("."))
+                break;
         }
 
         return AssembleReview(wordList);
@@ -74,8 +74,11 @@ public class ReviewService: IReviewService
     private Review AssembleReview(List<string> wordList)
     {
         // a little cleanup
-        string reviewText = (String.Join(' ', wordList) + ".").Trim();
+        string reviewText = (String.Join(' ', wordList)).Trim();
         reviewText = reviewText.Replace(" .", ".");
+        reviewText = Regex.Replace(reviewText, @"\.(?! |$)", ". ");
+        reviewText = Regex.Replace(reviewText, @"&#\w+;", "");
+        reviewText = reviewText.Replace("\"", "");
         reviewText = reviewText.Replace("dnt ", "dn't ");
         reviewText = reviewText.Replace("yre ", "y're ");
         reviewText = reviewText.Replace(" im ", " i'm ");
@@ -86,9 +89,9 @@ public class ReviewService: IReviewService
         return new Review()
         {
             reviewerID = "337737",
-            reviewerName = "Markov",
+            reviewerName = "Markov, Andrey",
             reviewText = reviewText,
-            overall = Random.Shared.Next(1,5),
+            overall = Random.Shared.Next(1,6),
             reviewTime = DateTime.UtcNow.ToString(),
             asin = "",
             summary = "",
