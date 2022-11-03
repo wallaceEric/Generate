@@ -13,6 +13,7 @@ generate has a single REST api (/API/generate) that returns JSON with an autogen
 
 #### Example JSON result
 
+```
 > {
     "reviewerID": "337737",
     "asin": "",
@@ -23,18 +24,18 @@ generate has a single REST api (/API/generate) that returns JSON with an autogen
     "unixReviewTime": 0,
     "reviewTime": "11/3/2022 3:15:26 PM"
 }
+```
 
 The training data zip file is included in the ./data folder and must be unzipped to .json (same name and location) before running generate. The file is loaded and processed when generate is first run (it does not wait for a request), so startup has a ~20 second delay.
 
 
 generate uses
+
 ● Markov order 2 by default. Configurable via markovOrder setting.
 
 ● random configurable review length (wordCountMin, wordCountMax in settings).  The review length will exceed wordCountMax in order to finish the sentence in progress.
 
 ● random 1-5 for "overall" rating
-
-Please see Settings section below
 
 ## Getting Started
 
@@ -64,12 +65,13 @@ Note: Changed settings take effect after restarting the application
 **TrainingDateFile** is the full path and file name to the JSON data for training
 
 #### Example Settings from appsettings.json
+```
  > "AppSettings": {
         "TrainingDataFile": ".\\data\\Grocery_and_Gourmet_Food_5.json",
         "MarkovOrder": 2,
         "WordCountMin": 15,
         "WordCountMax": 36
-
+```
 ## Authors
 
 * **Eric Wallace ** - *Initial work* - [vxeaw](https://github.com/vxeaw)
