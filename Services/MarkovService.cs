@@ -1,8 +1,6 @@
 using Microsoft.Extensions.Options;
-using generate.Entities;
 using generate.Helpers.MarkovChain;
 using generate.Helpers.Settings;
-using System.Text.RegularExpressions;
 
 namespace generate.Services;
 
@@ -15,7 +13,7 @@ public interface IMarkovService
 }
 
 /// <summary>
-/// Markob review service
+/// Markov review service
 /// </summary>
 public class MarkovService: IMarkovService
 {
@@ -23,7 +21,7 @@ public class MarkovService: IMarkovService
     private readonly MarkovChain _markovChain;
     
     /// <summary>
-    /// Service for Markov chaing
+    /// Service for Markov chain
     /// </summary>
     /// <param name="appSettings"></param>
     public MarkovService(IOptions<AppSettings> appSettings)
