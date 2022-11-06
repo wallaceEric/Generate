@@ -30,7 +30,6 @@ namespace generate.Helpers.MarkovChain
                 _markovOrder = markovOrder;
                 _trainingDataFile = trainingDataFile;
                 
-                
                 Train();
             }
             catch (Exception ex)
