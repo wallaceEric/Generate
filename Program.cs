@@ -29,7 +29,8 @@ namespace generate
                 builder.Services.AddSwaggerGen();
 
                 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-                builder.Services.AddSingleton<IReviewService, ReviewService>();
+                builder.Services.AddSingleton<IMarkovService, MarkovService>();
+                builder.Services.AddScoped<IReviewService, ReviewService>();
                 
             }
             var app = builder.Build();
@@ -49,8 +50,8 @@ namespace generate
                 app.UseMiddleware<ErrorHandlerMiddleware>();
                 app.MapControllers();
                 
-                // Warm up / initialize the review service
-                app.Services.GetService<IReviewService>();
+                // Warm up / initialize the Markov service
+                app.Services.GetService<IMarkovService>();
                 
                 app.Run();
             }

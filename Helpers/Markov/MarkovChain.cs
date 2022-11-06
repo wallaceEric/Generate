@@ -29,6 +29,8 @@ namespace generate.Helpers.MarkovChain
                 
                 _markovOrder = markovOrder;
                 _trainingDataFile = trainingDataFile;
+                
+                
                 Train();
             }
             catch (Exception ex)
@@ -90,24 +92,16 @@ namespace generate.Helpers.MarkovChain
         {
             List<Review> source = null;
             
-            try 
-            {
-                if (String.IsNullOrEmpty(_trainingDataFile))
-                    throw new ArgumentException($"{nameof(_trainingDataFile)} was not provided.");
+            if (String.IsNullOrEmpty(_trainingDataFile))
+                throw new ArgumentException($"{nameof(_trainingDataFile)} was not provided.");
 
-                if (!File.Exists(_trainingDataFile))
-                    throw new FileNotFoundException($"File [{_trainingDataFile}] was not found.");
+            if (!File.Exists(_trainingDataFile))
+                throw new FileNotFoundException($"File [{_trainingDataFile}] was not found.");
 
-                using (StreamReader r = new(_trainingDataFile))
-                {
-                    string json = r.ReadToEnd();
-                    source = JsonSerializer.Deserialize<List<Review>>(json);
-                }
-            } 
-            catch (Exception ex) 
+            using (StreamReader r = new(_trainingDataFile))
             {
-                //Log
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                string json = r.ReadToEnd();
+                source = JsonSerializer.Deserialize<List<Review>>(json);
             }
             return source;   
         }
@@ -117,6 +111,7 @@ namespace generate.Helpers.MarkovChain
         /// </summary>
         public String GetNextWord(string currentWord)
         {
+            
             // Get the next possible words for the current word. If 
             // none exist, indicate end of sentence / start of new sentence
             if (!_wordMap.TryGetValue(currentWord, out var nextWords))

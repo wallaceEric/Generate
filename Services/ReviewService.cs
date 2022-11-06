@@ -20,16 +20,16 @@ public interface IReviewService
 public class ReviewService: IReviewService
 {
     private readonly AppSettings _appSettings;
-    private readonly MarkovChain _markovChain;
+    private readonly IMarkovService _markovService;
     
     /// <summary>
     /// Service to generate Review
     /// </summary>
     /// <param name="appSettings"></param>
-    public ReviewService(IOptions<AppSettings> appSettings)
+    public ReviewService(IOptions<AppSettings> appSettings, IMarkovService markovService)
     {
         _appSettings = appSettings.Value;
-        _markovChain = new MarkovChain(_appSettings.MarkovOrder, _appSettings.TrainingDataFile);
+        _markovService = markovService;
     }
 
      public Review Generate()
@@ -55,7 +55,7 @@ public class ReviewService: IReviewService
         string word = string.Empty;
         while (true)
         {
-            word = _markovChain.GetNextWord(word);
+            word = _markovService.GetNextWord(word);
             wordList.Add(word.Split(" ").Last());
             if (wordList.Count >= wordCount && wordList.Last().TrimEnd().EndsWith("."))
                 break;
